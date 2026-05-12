@@ -35,11 +35,10 @@ const App = () => {
     return setUsers(filtered);
   };
   useEffect(() => {
-    // const timer = setTimeout(fetchData, 5000);
-    // return () => {
-    //   clearTimeout(timer);
-    // };
-    fetchData()
+    const timer = setTimeout(fetchData, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
 
