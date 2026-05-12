@@ -16,6 +16,8 @@ const [filteredUsers, setFilteredUsers] = useState([])
       if (!responce.ok) throw new Error("Responce is not Okay");
       const data = await responce.json();
       setUsers(data);
+      setFilteredUsers(data);
+      
     } catch (err) {
       setError(err.message);
     } finally {
@@ -32,7 +34,7 @@ const [filteredUsers, setFilteredUsers] = useState([])
     );
     console.log("filterd", filtered);
     
-    return setUsers(filtered);
+    return setFilteredUsers(filtered);
   };
  useEffect(() => {
     fetchData();
@@ -43,7 +45,6 @@ const [filteredUsers, setFilteredUsers] = useState([])
       const filtered = users.filter((user) =>
         user.name.toLowerCase().includes(search.toLowerCase().trim())
       );
-
       setFilteredUsers(filtered);
     }, 500);
 
@@ -65,24 +66,26 @@ const [filteredUsers, setFilteredUsers] = useState([])
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
 
-        {filteredUsers.length > 0
-          ? filteredUsers.map((user) => (
-              <div
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  border: "1px solid black",
-                  padding: "5px",
-                  margin: "10px",
-                }}
-                key={user.id}
-              >
-                <h2>Name: {user.name}</h2>
-                <p>Email: {user.email}</p>
-                <p>Mobile No.: {user.phone}</p>
-              </div>
-            ))
-          : "No user found"}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <div
+              key={user.id}
+              style={{
+                width: "200px",
+                height: "200px",
+                border: "1px solid black",
+                padding: "5px",
+                margin: "10px",
+              }}
+            >
+              <h2>Name: {user.name}</h2>
+              <p>Email: {user.email}</p>
+              <p>Mobile No.: {user.phone}</p>
+            </div>
+          ))
+        ) : (
+          <p>No user found</p>
+        )} 
       </div>
     </div>
   );
