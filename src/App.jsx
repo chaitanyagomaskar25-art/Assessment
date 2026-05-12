@@ -5,7 +5,7 @@ const App = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-
+const [filteredUsers, setFilteredUsers] = useState([])
   const fetchData = async () => {
     setError(null);
     setLoading(true);
@@ -34,13 +34,21 @@ const App = () => {
     
     return setUsers(filtered);
   };
-  useEffect(() => { 
-    const timer = setTimeout(fetchData, 500);
-    return () => {
-      clearTimeout(timer);
-    };
+ useEffect(() => {
+    fetchData();
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const filtered = users.filter((user) =>
+        user.name.toLowerCase().includes(search.toLowerCase().trim())
+      );
+
+      setFilteredUsers(filtered);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search, users]);
 
   return (
     <div>
@@ -57,8 +65,8 @@ const App = () => {
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
 
-        {users.length > 0
-          ? users.map((user) => (
+        {filteredUsers.length > 0
+          ? filteredUsers.map((user) => (
               <div
                 style={{
                   width: "200px",
