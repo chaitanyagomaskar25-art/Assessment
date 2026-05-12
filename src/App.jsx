@@ -34,7 +34,7 @@ const App = () => {
     
     return setUsers(filtered);
   };
-  useEffect(() => {
+  useEffect(() => { 
     const timer = setTimeout(fetchData, 500);
     return () => {
       clearTimeout(timer);
